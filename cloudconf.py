@@ -78,9 +78,9 @@ class DatacenterPage(QtGui.QWidget):
 #### Sheduling Interval
         shedulingIntervalLabel = QtGui.QLabel("Sheduling Interval")
         self.shedulingIntervalSpinBox = QtGui.QSpinBox()
-        self.shedulingIntervalSpinBox.setMinimum(1)
-        self.shedulingIntervalSpinBox.setSingleStep(1)
-        self.shedulingIntervalSpinBox.setValue(30)
+        self.shedulingIntervalSpinBox.setRange(300,600)
+        self.shedulingIntervalSpinBox.setSingleStep(300300300)
+        self.shedulingIntervalSpinBox.setValue(300)
 
         shedulingIntervalLayout = QtGui.QHBoxLayout()
         shedulingIntervalLayout.addWidget(shedulingIntervalLabel)
@@ -307,9 +307,9 @@ class VMPage(QtGui.QWidget):
         numOfVMLabel = QtGui.QLabel("Number of Virtual Machines:")
         self.numOfVMSpinBox = QtGui.QSpinBox()
 #        self.numOfVMSpinBox.setMinimum(1)
-        self.numOfVMSpinBox.setRange(1, 1000)
+        self.numOfVMSpinBox.setRange(1, 2000)
         self.numOfVMSpinBox.setSingleStep(1)
-        self.numOfVMSpinBox.setValue(800)
+        self.numOfVMSpinBox.setValue(1500)
         self.numOfVMSpinBox.valueChanged.connect(self.updateVmInfoGroup)
 
         numOfVMLayout = QtGui.QHBoxLayout()
@@ -400,6 +400,7 @@ class PolicyPage(QtGui.QWidget):
         self.vmAllocationComboBox.addItem("LRR")
         self.vmAllocationComboBox.addItem("THR")
         self.vmAllocationComboBox.addItem("DVFS")
+        self.vmAllocationComboBox.addItem("NPA")
         
         vmAllocationInfoButton = QtGui.QPushButton() 
         vmAllocationInfoButton.setIcon(QtGui.QIcon("./images/info.png"))
@@ -412,6 +413,7 @@ class PolicyPage(QtGui.QWidget):
         self.vmSelectionComboBox.addItem("MMT")
         self.vmSelectionComboBox.addItem("MU")
         self.vmSelectionComboBox.addItem("RS")
+        self.vmSelectionComboBox.addItem("NPA")
 
         vmSelectionInfoButton = QtGui.QPushButton() 
         vmSelectionInfoButton.setIcon(QtGui.QIcon("./images/info.png"))
@@ -439,6 +441,7 @@ class PolicyPage(QtGui.QWidget):
 
         outputFolderLabel = QtGui.QLabel("Output Folder:")
         self.outputFolderEdit = QtGui.QLineEdit()
+        self.outputFolderEdit.setText("output_test")
 
         self.outputToFile = QtGui.QCheckBox("Output to Files")
 
@@ -600,7 +603,7 @@ class ConfigDialog(QtGui.QDialog):
 
         f.write("\nVmAllocationPolicy="+policy.vmAllocationComboBox.currentText())
         f.write("\nVmSelectionPolicy="+policy.vmSelectionComboBox.currentText())
-        f.write("\nParamter="+policy.parameterEdit.text())
+        f.write("\nParameter="+policy.parameterEdit.text())
         f.write("\nOutputFolder="+policy.outputFolderEdit.text())
         if policy.outputToFile.isChecked():
             f.write("\nOutputToFile=True")
@@ -630,6 +633,16 @@ class ConfigDialog(QtGui.QDialog):
         self.writeVM(f)
         f.write("\n\n# Policy Setting")
         self.writePolicy(f)
+        f.write("\n")
+        f.close()
+
+
+        msgBox = QtGui.QMessageBox()
+        msgBox.setWindowTitle("Save Configuue File...")
+        msgBox.setText("The Configure File Saved As:<br> <b><i>"+fname+"</i></b>")
+        msgBox.setIcon(1)
+        msgBox.exec_()
+
 
     def changePage(self, current, previous):
         if not current:
