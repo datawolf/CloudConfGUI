@@ -216,17 +216,17 @@ class HostPage(QtGui.QWidget):
 
         powerModelLabel = QtGui.QLabel("Power Model:")
         self.powerModelCombo = QtGui.QComboBox()
+        self.powerModelCombo.addItem("Spec Power")
         self.powerModelCombo.addItem("Linear")
         self.powerModelCombo.addItem("Square root")
         self.powerModelCombo.addItem("Square")
         self.powerModelCombo.addItem("Clubic")
-        self.powerModelCombo.addItem("Spec Power")
 
 
         ramProvisionerLabel = QtGui.QLabel("RAM Provisioner:")
         self.ramProvisionerCombo = QtGui.QComboBox()
-        self.ramProvisionerCombo.addItem("Simple")
         self.ramProvisionerCombo.addItem("Dynamic")
+        self.ramProvisionerCombo.addItem("Simple")
 
         bandwidthProvisionerLabel = QtGui.QLabel("Bandwidth Provisioner:")
         self.bandwidthProvisionerCombo = QtGui.QComboBox()
